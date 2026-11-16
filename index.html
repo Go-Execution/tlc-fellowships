@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TLC Fellowship — Truth, Love, and Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #062D54;
+      --navy-deep: #041D37;
+      --paper: #F7F6F2;
+      --white: #FFFFFF;
+      --gold: #A4782E;
+      --crimson: #8C2323;
+      --ink: #081B30;
+      --muted: #5A6B80;
+      --line: rgba(6, 45, 84, 0.1);
+      --line-dark: rgba(255, 255, 255, 0.12);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scroll Progress */
+    .scroll-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: var(--gold);
+      z-index: 1000;
+    }
+
+    /* Header — Logo Only (2x size: 80px), No Text Beside Logo */
+    .nav-wrap {
+      position: fixed;
+      top: 1rem;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      display: flex;
+      justify-content: center;
+      padding: 0 1.25rem;
+      pointer-events: none;
+    }
+
+    .nav-pill {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 1120px;
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem 0.45rem 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 14px 36px -14px rgba(6, 45, 84, 0.14);
+      transition: box-shadow 0.35s var(--ease);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 84px;
+      height: 84px;
+      padding: 6px;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: var(--white);
+      border: 1px solid var(--line);
+      flex-shrink: 0;
+      transition: transform 0.4s var(--ease);
+    }
+
+    .brand-logo:hover {
+      transform: scale(1.04);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      transition: color 0.25s ease, background-color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--navy);
+      background-color: rgba(6, 45, 84, 0.06);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--navy);
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.72rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.35s var(--ease), background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-navy {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+    .btn-navy:hover {
+      background-color: var(--navy-deep);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--navy);
+      border-color: rgba(6, 45, 84, 0.24);
+    }
+    .btn-outline:hover {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-white {
+      background-color: var(--white);
+      color: var(--navy);
+    }
+    .btn-white:hover {
+      background-color: var(--paper);
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background-color: var(--gold);
+      color: var(--white);
+    }
+    .btn-gold:hover {
+      background-color: #8C6422;
+      transform: translateY(-2px);
+    }
+
+    /* Layout Helpers */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .section {
+      padding: 5.75rem 0;
+    }
+
+    .section-navy {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+
+    .section-white {
+      background-color: var(--white);
+      color: var(--ink);
+    }
+
+    .mono-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    .mono-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 92vh;
+      padding: 9.5rem 0 4.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.4vw, 4.5rem);
+      line-height: 1.04;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin-bottom: 2.25rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    /* Orbit Emblem */
+    .orbit-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .orbit {
+      position: relative;
+      width: 310px;
+      height: 310px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px dashed rgba(6, 45, 84, 0.22);
+      animation: spin 42s linear infinite;
+    }
+
+    .orbit-ring-2 {
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(164, 120, 46, 0.3);
+      animation: spinReverse 28s linear infinite;
+    }
+
+    .orbit-ring-2::after {
+      content: '';
+      position: absolute;
+      top: -3.5px;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--gold);
+      transform: translateX(-50%);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spinReverse { to { transform: rotate(-360deg); } }
+
+    .emblem {
+      width: 245px;
+      height: 245px;
+      border-radius: 50%;
+      background-color: var(--white);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 24px 55px -18px rgba(6, 45, 84, 0.16);
+    }
+
+    .emblem img {
+      width: 88%;
+      height: 88%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      transform: scale(1.03);
+    }
+
+    /* Marquee */
+    .marquee {
+      background-color: var(--navy);
+      color: var(--white);
+      padding: 0.95rem 0;
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: slide 28s linear infinite;
+    }
+
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      padding-right: 1.75rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .marquee-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--gold);
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Vision / Mission Simplistic Block */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .triad-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-top: 1.5rem;
+    }
+
+    .triad-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .triad-row span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gold);
+    }
+
+    .triad-row strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      color: var(--navy);
+      min-width: 115px;
+    }
+
+    .triad-row p {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .vm-card {
+      background-color: var(--navy);
+      color: var(--white);
+      border-radius: 22px;
+      padding: 2.5rem;
+    }
+
+    .vm-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .vm-tab {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.72);
+      border: none;
+      padding: 0.5rem 1.05rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .vm-tab.active {
+      background-color: var(--white);
+      color: var(--navy);
+    }
+
+    .vm-panel {
+      display: none;
+      animation: fadeUp 0.4s var(--ease);
+    }
+
+    .vm-panel.active {
+      display: block;
+    }
+
+    .vm-panel h3 {
+      font-size: 1.55rem;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 1rem;
+    }
+
+    .vm-panel p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Weekend Experience (Minimalist Canvas Wave) */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .wave-box {
+      position: relative;
+      height: 310px;
+      background-color: var(--navy-deep);
+      border: 1px solid var(--line-dark);
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #waveCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .play-btn {
+      position: relative;
+      z-index: 2;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background-color: var(--white);
+      color: var(--navy);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      transition: transform 0.35s var(--ease), background-color 0.25s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+      background-color: var(--gold);
+      color: var(--white);
+    }
+
+    .exp-copy h2 {
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      margin-bottom: 1rem;
+    }
+
+    .exp-copy p {
+      color: rgba(255, 255, 255, 0.76);
+      margin-bottom: 1.75rem;
+    }
+
+    .exp-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-dark);
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 1.75rem;
+    }
+
+    /* Unified Interactive Explore Tabs (Groups / Serve & Growth / Care) */
+    .explore-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .explore-head h2 {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      color: var(--navy);
+    }
+
+    .seg-tabs {
+      display: inline-flex;
+      background-color: var(--paper);
+      padding: 0.35rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .seg-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .seg-btn.active {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+
+    .explore-panel {
+      display: none;
+      animation: fadeUp 0.4s var(--ease);
+    }
+
+    .explore-panel.active {
+      display: block;
+    }
+
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.15rem;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.15rem;
+    }
+
+    .mini-card {
+      background-color: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.75rem;
+      transition: transform 0.35s var(--ease), background-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .mini-card:hover {
+      background-color: var(--navy);
+      color: var(--white);
+      transform: translateY(-4px);
+    }
+
+    .mini-card span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.85rem;
+    }
+
+    .mini-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .mini-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .mini-card:hover p {
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .panel-note {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Give & Connect Minimalist Split */
+    .connect-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .give-box {
+      background-color: var(--navy);
+      color: var(--white);
+      border-radius: 22px;
+      padding: 2.5rem;
+    }
+
+    .give-box h3 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .give-box p {
+      font-size: 0.94rem;
+      color: rgba(255, 255, 255, 0.74);
+      margin-bottom: 1.75rem;
+    }
+
+    .amt-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .amt-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line-dark);
+      color: var(--white);
+      padding: 0.65rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .amt-btn.active {
+      background-color: var(--white);
+      color: var(--navy);
+    }
+
+    .form-box {
+      background-color: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 2.5rem;
+    }
+
+    .form-box h3 {
+      font-size: 1.75rem;
+      color: var(--navy);
+      margin-bottom: 1.25rem;
+    }
+
+    .hub-tabs {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .hub-tab {
+      background-color: var(--paper);
+      color: var(--muted);
+      border: none;
+      padding: 0.48rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hub-tab.active {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .form-box input,
+    .form-box select,
+    .form-box textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background-color: var(--paper);
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+    }
+
+    .form-row input { margin-bottom: 0; }
+
+    .form-box input:focus,
+    .form-box select:focus,
+    .form-box textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+      background-color: var(--white);
+    }
+
+    .toast {
+      margin-top: 0.85rem;
+      font-size: 0.88rem;
+      color: var(--navy);
+      font-weight: 600;
+      display: none;
+    }
+
+    /* Footer — Structured Architectural Navy Footer, 2x Logo (112px), No Text Beside Logo */
+    footer {
+      background-color: var(--navy-deep);
+      color: var(--white);
+      padding: 5rem 0 2.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr 0.95fr 1.25fr;
+      gap: 3rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--line-dark);
+      align-items: start;
+    }
+
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .footer-logo {
+      width: 112px;
+      height: 112px;
+      padding: 8px;
+      border-radius: 24px;
+      background-color: var(--white);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.45);
+      transition: transform 0.4s var(--ease);
+    }
+
+    .footer-logo:hover {
+      transform: translateY(-3px);
+    }
+
+    .footer-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.65;
+      max-width: 290px;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .social-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line-dark);
+      background-color: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .social-pill:hover {
+      background-color: var(--white);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    footer h5 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #C79E52;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      list-style: none;
+    }
+
+    .footer-col-links a {
+      color: rgba(255, 255, 255, 0.72);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .footer-col-links a:hover {
+      color: var(--white);
+      transform: translateX(4px);
+    }
+
+    .footer-news-card {
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line-dark);
+      border-radius: 18px;
+      padding: 1.5rem;
+    }
+
+    .footer-news-card p {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 1rem;
+      line-height: 1.55;
+    }
+
+    .footer-input-group {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .footer-input-group input {
+      flex: 1;
+      min-width: 0;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background-color: rgba(4, 29, 55, 0.8);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+
+    .footer-input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .footer-input-group input:focus {
+      outline: none;
+      border-color: #C79E52;
+    }
+
+    .footer-input-group button {
+      padding: 0.65rem 1.1rem;
+      border-radius: 999px;
+      border: none;
+      background-color: var(--gold);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .footer-input-group button:hover {
+      background-color: #8C6422;
+    }
+
+    .footer-meta-loc {
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      padding-top: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .top-link {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--line-dark);
+      border-radius: 999px;
+      transition: all 0.25s ease;
+    }
+
+    .top-link:hover {
+      background-color: var(--white);
+      color: var(--navy);
+    }
+
+    /* Reveal */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+    }
+
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Mobile Drawer */
+    .drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: var(--navy);
+      color: var(--white);
+      z-index: 950;
+      padding: 5.5rem 2rem 2rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .drawer.open { display: flex; }
+    .drawer a {
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid, .vision-grid, .exp-grid, .connect-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .orbit-wrap { order: -1; }
+      .orbit { width: 250px; height: 250px; }
+      .emblem { width: 195px; height: 195px; }
+      .cards-4 { grid-template-columns: repeat(2, 1fr); }
+      .cards-3 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links, .nav-actions { display: none; }
+      .mobile-toggle { display: flex; }
+      .cards-4, .form-row, .footer-grid { grid-template-columns: 1fr; }
+      .section { padding: 4.25rem 0; }
+      .hero { padding-top: 8.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-line" id="scrollLine"></div>
+
+  <!-- Header: 2x Logo Only (80px), No Text -->
+  <div class="nav-wrap">
+    <nav class="nav-pill">
+      <a href="#top" class="brand-logo" aria-label="TLC Fellowship Home">
+        <img src="assets/image1.png" alt="TLC Fellowship Logo">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Watch</a></li>
+        <li><a href="#explore">Get Involved</a></li>
+        <li><a href="#connect">Connect</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#give" class="btn btn-outline" style="padding: 0.52rem 1.15rem;">Give</a>
+        <a href="#connect" class="btn btn-navy" style="padding: 0.52rem 1.25rem;">Join Us</a>
+      </div>
+
+      <button class="mobile-toggle" id="menuBtn" aria-label="Open Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer" id="drawer">
+    <button onclick="toggleDrawer(false)" style="position:absolute; top:1.25rem; right:1.5rem; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;">&times;</button>
+    <a href="#about" onclick="toggleDrawer(false)">About</a>
+    <a href="#experience" onclick="toggleDrawer(false)">Weekend Experience</a>
+    <a href="#explore" onclick="toggleDrawer(false)">Groups &amp; Serve</a>
+    <a href="#give" onclick="toggleDrawer(false)">Give</a>
+    <a href="#connect" onclick="toggleDrawer(false)">Connect</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div data-reveal>
+          <div class="mono-label">Gresham &amp; Happy Valley</div>
+          <h1>We Exist to Empower You With <span>Truth, Love, and Community.</span></h1>
+          <p>
+            A welcoming multi-ethnic, multi-generational community built on relationships over religion — for anyone seeking God or a place that feels like home.
+          </p>
+          <div class="hero-cta">
+            <a href="#experience" class="btn btn-navy">Weekend Experience</a>
+            <a href="#connect" class="btn btn-outline">Connect With Us</a>
+          </div>
+        </div>
+
+        <div class="orbit-wrap" data-reveal style="transition-delay: 120ms;">
+          <div class="orbit">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring-2"></div>
+            <div class="emblem">
+              <img src="assets/image1.png" alt="TLC Fellowship Emblem">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kinetic Marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-item"><span>Truth Lived</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Love Shared</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Community Found</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Belong • Believe • Become</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>One Life • One Story • One Fellowship</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Truth Lived</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Love Shared</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Community Found</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>Belong • Believe • Become</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span>One Life • One Story • One Fellowship</span><span class="marquee-dot"></span></div>
+    </div>
+  </div>
+
+  <!-- Vision, Mission & Triad -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="vision-grid">
+        <div data-reveal>
+          <div class="mono-label">Our Foundation</div>
+          <h2 style="font-size: clamp(2rem, 3.5vw, 2.7rem); color: var(--navy); margin-bottom: 1rem;">
+            Relationships over religion.
+          </h2>
+          <div class="triad-list">
+            <div class="triad-row">
+              <span>01</span>
+              <strong>Truth</strong>
+              <p>Relevant, Christ-centered truth lived with grace.</p>
+            </div>
+            <div class="triad-row">
+              <span>02</span>
+              <strong>Love</strong>
+              <p>Unconditional care without judgment.</p>
+            </div>
+            <div class="triad-row">
+              <span>03</span>
+              <strong>Community</strong>
+              <p>A space to belong, believe, and become.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vm-card" data-reveal style="transition-delay: 100ms;">
+          <div class="vm-tabs">
+            <button class="vm-tab active" onclick="setVM('vision', this)">Vision</button>
+            <button class="vm-tab" onclick="setVM('mission', this)">Mission</button>
+            <button class="vm-tab" onclick="setVM('heart', this)">Our Heart</button>
+          </div>
+
+          <div class="vm-panel active" id="vm-vision">
+            <h3>“To be a welcoming multi-ethnic community where Truth is lived, Love is shared, and every person finds belonging.”</h3>
+            <p>Reaching beyond walls, meeting people where they are, and building a home for the unchurched and those seeking God.</p>
+          </div>
+
+          <div class="vm-panel" id="vm-mission">
+            <h3>“To embody Christ’s truth through love; building authentic community where every person can belong, believe, and become.”</h3>
+            <p>Reflecting God’s heart with everyday compassion through worship and service — one life, one story, one fellowship at a time.</p>
+          </div>
+
+          <div class="vm-panel" id="vm-heart">
+            <h3>“People who may have given up on church, but not on God.”</h3>
+            <p>We exist to love people and meet real needs through grief care, divorce care, food &amp; clothing distribution, and everyday messages of hope.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekend Experience (Solid Navy) -->
+  <section class="section section-navy" id="experience">
+    <div class="container">
+      <div class="exp-grid">
+        <div class="wave-box" data-reveal>
+          <canvas id="waveCanvas"></canvas>
+          <button class="play-btn" onclick="toggleWave()" aria-label="Preview Stream Wave">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg>
+          </button>
+          <strong style="position:relative; z-index:2; font-family:'Outfit',sans-serif; font-size:1.25rem;">Live Video &amp; Sermons</strong>
+          <span id="waveLabel" style="position:relative; z-index:2; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:rgba(255,255,255,0.65); margin-top:0.35rem;">COMING SOON • TBA</span>
+        </div>
+
+        <div class="exp-copy" data-reveal style="transition-delay: 100ms;">
+          <div class="mono-label" style="color: #C79E52;">Worship &amp; Word</div>
+          <h2>Weekend Experiences</h2>
+          <p>Relevant teaching you can apply to everyday life, inspiring worship, and a community that feels like family.</p>
+          <div class="exp-pill">TIMES &amp; LOCATION: TO BE ANNOUNCED</div>
+          <div>
+            <a href="#connect" class="btn btn-white" onclick="setHubTab('newsletter')">Get Launch Alerts</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clean Unified Explore Section: Groups / Dream Teams & Growth / Care -->
+  <section class="section section-white" id="explore">
+    <div class="container">
+      <div class="explore-head" data-reveal>
+        <div>
+          <div class="mono-label">Get Involved</div>
+          <h2>Connect, Serve &amp; Grow</h2>
+        </div>
+
+        <div class="seg-tabs">
+          <button class="seg-btn active" onclick="setExplore('groups', this)">Small Groups</button>
+          <button class="seg-btn" onclick="setExplore('serve', this)">Dream Teams &amp; Growth</button>
+          <button class="seg-btn" onclick="setExplore('care', this)">Care &amp; Outreach</button>
+        </div>
+      </div>
+
+      <!-- Groups -->
+      <div class="explore-panel active" id="exp-groups">
+        <div class="cards-4">
+          <div class="mini-card" onclick="goConnect('connect', 'Growth Group')">
+            <span>01 // GROWTH</span>
+            <h4>Growth</h4>
+            <p>Deepen your faith together in community.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('connect', 'Prayer Group')">
+            <span>02 // PRAYER</span>
+            <h4>Prayer</h4>
+            <p>Stand together in prayer and renewal.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('connect', 'Fitness Group')">
+            <span>03 // FITNESS</span>
+            <h4>Fitness</h4>
+            <p>Connect through active wellness.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('connect', 'Care Group')">
+            <span>04 // CARE</span>
+            <h4>Care</h4>
+            <p>Supportive spaces for every season.</p>
+          </div>
+        </div>
+        <div class="panel-note">
+          <span>We are not meant to be alone — small groups launching soon.</span>
+          <a href="#connect" class="btn btn-outline" onclick="goConnect('connect', 'Small Groups')">Join Waitlist</a>
+        </div>
+      </div>
+
+      <!-- Dream Teams & Growth Track -->
+      <div class="explore-panel" id="exp-serve">
+        <div class="cards-3">
+          <div class="mini-card" onclick="goConnect('volunteer', 'Join a Dream Team')">
+            <span>01 // SERVE • 1 PETER 4:10</span>
+            <h4>Join a Dream Team</h4>
+            <p>Discover the joy of using your spiritual gifts to serve others.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('connect', 'Becoming a Member (TBA)')">
+            <span>02 // GROWTH TRACK (TBA)</span>
+            <h4>Becoming a Member</h4>
+            <p>Explore what we believe and how to partner with TLC Fellowship.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('volunteer', 'Discover Your S.H.A.P.E. (TBA)')">
+            <span>03 // PURPOSE (TBA)</span>
+            <h4>Discover Your S.H.A.P.E.</h4>
+            <p>Uncover your heart, personality, and gifts to find your ministry fit.</p>
+          </div>
+        </div>
+        <div class="panel-note">
+          <span>“Use your gifts well to serve one another.” — 1 Peter 4:10</span>
+          <a href="#connect" class="btn btn-outline" onclick="goConnect('volunteer', 'Join a Dream Team')">Volunteer Registration</a>
+        </div>
+      </div>
+
+      <!-- Care & Outreach -->
+      <div class="explore-panel" id="exp-care">
+        <div class="cards-4">
+          <div class="mini-card" onclick="goConnect('assistance', 'Grief Care')">
+            <span>01 // SUPPORT</span>
+            <h4>Grief Care</h4>
+            <p>Compassionate support through loss.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('assistance', 'DivorceCare')">
+            <span>02 // HEALING</span>
+            <h4>DivorceCare</h4>
+            <p>Grace and guidance for restoration.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('assistance', 'Food Distribution')">
+            <span>03 // PROVISION</span>
+            <h4>Food Distribution</h4>
+            <p>Supporting families in our neighborhood.</p>
+          </div>
+          <div class="mini-card" onclick="goConnect('assistance', 'Clothing Distribution')">
+            <span>04 // CARE</span>
+            <h4>Clothing Pantry</h4>
+            <p>Practical essentials shared with love.</p>
+          </div>
+        </div>
+        <div class="panel-note">
+          <span>Meeting practical needs across Gresham &amp; Happy Valley.</span>
+          <a href="#connect" class="btn btn-outline" onclick="goConnect('assistance', 'Request Assistance')">Request Assistance</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Give & Connect -->
+  <section class="section" id="give">
+    <div class="container">
+      <div class="connect-grid" id="connect">
+        <div class="give-box" data-reveal>
+          <div class="mono-label" style="color: #C79E52;">Generosity</div>
+          <h3>Partner With TLC</h3>
+          <p>Support our launch and community care initiatives across Gresham &amp; Happy Valley.</p>
+
+          <div class="amt-row">
+            <button type="button" class="amt-btn active" onclick="pickAmt(this, '$25')">$25</button>
+            <button type="button" class="amt-btn" onclick="pickAmt(this, '$50')">$50</button>
+            <button type="button" class="amt-btn" onclick="pickAmt(this, '$100')">$100</button>
+            <button type="button" class="amt-btn" onclick="pickAmt(this, 'Custom')">Custom</button>
+          </div>
+
+          <button type="button" class="btn btn-gold" style="width:100%;" onclick="document.getElementById('giveMsg').style.display='block'">
+            Give <span id="amtText">$25</span> (Online Giving TBA)
+          </button>
+          <p id="giveMsg" style="display:none; margin-top:0.85rem; margin-bottom:0; font-size:0.85rem; color:#C79E52;">
+            Online donations portal launching soon — message us to partner early.
+          </p>
+        </div>
+
+        <div class="form-box" data-reveal style="transition-delay: 100ms;">
+          <div class="mono-label">Connect</div>
+          <h3>Stay in Touch</h3>
+
+          <div class="hub-tabs">
+            <button type="button" class="hub-tab active" data-tab="connect" onclick="setHubTab('connect')">Contact / Events</button>
+            <button type="button" class="hub-tab" data-tab="volunteer" onclick="setHubTab('volunteer')">Volunteer</button>
+            <button type="button" class="hub-tab" data-tab="assistance" onclick="setHubTab('assistance')">Care Request</button>
+            <button type="button" class="hub-tab" data-tab="newsletter" onclick="setHubTab('newsletter')">Newsletter</button>
+          </div>
+
+          <form onsubmit="submitForm(event)">
+            <div class="form-row">
+              <input id="fName" type="text" placeholder="Full name" required>
+              <input id="fEmail" type="email" placeholder="Email address" required>
+            </div>
+            <select id="fTopic">
+              <option value="Small Groups">Small Groups</option>
+              <option value="Growth Group">Growth Group</option>
+              <option value="Prayer Group">Prayer Group</option>
+              <option value="Fitness Group">Fitness Group</option>
+              <option value="Care Group">Care Group</option>
+              <option value="Join a Dream Team">Join a Dream Team</option>
+              <option value="Becoming a Member (TBA)">Becoming a Member (TBA)</option>
+              <option value="Discover Your S.H.A.P.E. (TBA)">Discover Your S.H.A.P.E. (TBA)</option>
+              <option value="Grief Care">Grief Care</option>
+              <option value="DivorceCare">DivorceCare</option>
+              <option value="Food Distribution">Food Distribution</option>
+              <option value="Clothing Distribution">Clothing Distribution</option>
+              <option value="Request Assistance">Request Assistance</option>
+              <option value="Event Updates / General">Event Updates / General</option>
+            </select>
+            <textarea id="fMsg" rows="3" placeholder="Message or prayer request..."></textarea>
+            <button type="submit" class="btn btn-navy" style="width:100%;" id="submitBtn">Send Message</button>
+            <div class="toast" id="toast"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer: Structured Architectural Footer, 2x Logo (112px), No Text Beside Logo -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <a href="#top" class="footer-logo" aria-label="TLC Fellowship">
+            <img src="assets/image1.png" alt="TLC Fellowship Logo">
+          </a>
+          <p class="footer-tagline">
+            A welcoming multi-ethnic, multi-generational fellowship reaching beyond walls across Gresham &amp; Happy Valley.
+          </p>
+          <div class="social-row">
+            <a href="#connect" class="social-pill" aria-label="Facebook">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+            </a>
+            <a href="#connect" class="social-pill" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#experience" class="social-pill" aria-label="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h5>Explore</h5>
+          <ul class="footer-col-links">
+            <li><a href="#about">About &amp; Vision</a></li>
+            <li><a href="#experience">Weekend Experience</a></li>
+            <li><a href="#explore" onclick="setExplore('groups', document.querySelectorAll('.seg-btn')[0])">Small Groups</a></li>
+            <li><a href="#explore" onclick="setExplore('serve', document.querySelectorAll('.seg-btn')[1])">Dream Teams</a></li>
+            <li><a href="#explore" onclick="setExplore('serve', document.querySelectorAll('.seg-btn')[1])">Growth Track (TBA)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Care &amp; Support</h5>
+          <ul class="footer-col-links">
+            <li><a href="#connect" onclick="goConnect('assistance', 'Grief Care')">Grief Care</a></li>
+            <li><a href="#connect" onclick="goConnect('assistance', 'DivorceCare')">DivorceCare</a></li>
+            <li><a href="#connect" onclick="goConnect('assistance', 'Food Distribution')">Food Distribution</a></li>
+            <li><a href="#connect" onclick="goConnect('assistance', 'Clothing Distribution')">Clothing Pantry</a></li>
+            <li><a href="#give">Partner &amp; Give</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-news-card">
+          <h5>Launch Updates</h5>
+          <p>Get notified when weekend experiences, sermons, and small groups launch.</p>
+          <form class="footer-input-group" onsubmit="footerSubscribe(event)">
+            <input id="footerEmail" type="email" placeholder="Your email" required>
+            <button type="submit">Join</button>
+          </form>
+          <p id="footerSubMsg" style="display:none; color:#C79E52; font-size:0.8rem; margin-top:0.65rem; margin-bottom:0;">
+            Subscribed! We’ll keep you posted.
+          </p>
+          <div class="footer-meta-loc">
+            <span>GRESHAM &amp; HAPPY VALLEY</span>
+            <span>TIMES: TBA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-copy">
+        <span>&copy; 2026 TLC Fellowship • Truth, Love, and Community</span>
+        <span>Together in Truth • United in Love • Strong in Community</span>
+        <a href="#top" class="top-link">Back to Top &uarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll Progress
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('scrollLine').style.width = h > 0 ? `${(window.scrollY / h) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // Drawer
+    const drawer = document.getElementById('drawer');
+    document.getElementById('menuBtn').addEventListener('click', () => toggleDrawer(true));
+    function toggleDrawer(open) {
+      drawer.classList.toggle('open', open);
+    }
+
+    // Vision / Mission Tabs
+    function setVM(id, btn) {
+      document.querySelectorAll('.vm-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.vm-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`vm-${id}`).classList.add('active');
+    }
+
+    // Explore Tabs
+    function setExplore(id, btn) {
+      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.explore-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`exp-${id}`).classList.add('active');
+    }
+
+    // Canvas Wave
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+    let phase = 0, speed = 0.015, amp = 1, active = false;
+
+    function fitCanvas() {
+      const box = canvas.parentElement;
+      canvas.width = box.clientWidth * devicePixelRatio;
+      canvas.height = box.clientHeight * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function draw() {
+      const w = canvas.parentElement.clientWidth;
+      const h = canvas.parentElement.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      [
+        { a: 24, f: 0.008, s: 1, c: 'rgba(164, 120, 46, 0.35)' },
+        { a: 16, f: 0.012, s: 1.4, c: 'rgba(255, 255, 255, 0.15)' }
+      ].forEach((l, i) => {
+        ctx.beginPath();
+        ctx.strokeStyle = l.c;
+        ctx.lineWidth = 1.25;
+        for (let x = 0; x <= w; x += 6) {
+          const y = h * 0.5 + Math.sin(x * l.f + phase * l.s + i) * l.a * amp;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      });
+
+      phase += speed;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', fitCanvas);
+    fitCanvas();
+    draw();
+
+    function toggleWave() {
+      active = !active;
+      speed = active ? 0.05 : 0.015;
+      amp = active ? 1.45 : 1;
+      document.getElementById('waveLabel').textContent = active ? 'STREAM PREVIEW • TBA' : 'COMING SOON • TBA';
+    }
+
+    // Give
+    function pickAmt(btn, amt) {
+      document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('amtText').textContent = amt;
+    }
+
+    // Connect Tabs
+    function setHubTab(tab) {
+      document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      const topic = document.getElementById('fTopic');
+      const msg = document.getElementById('fMsg');
+      const btn = document.getElementById('submitBtn');
+
+      if (tab === 'newsletter') {
+        topic.style.display = 'none';
+        msg.style.display = 'none';
+        btn.textContent = 'Subscribe';
+      } else {
+        topic.style.display = 'block';
+        msg.style.display = 'block';
+        btn.textContent = tab === 'volunteer' ? 'Submit Volunteer Interest' : tab === 'assistance' ? 'Request Care' : 'Send Message';
+      }
+    }
+
+    function goConnect(tab, optionVal) {
+      setHubTab(tab);
+      const sel = document.getElementById('fTopic');
+      if ([...sel.options].some(o => o.value === optionVal)) sel.value = optionVal;
+      document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function submitForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('fName').value.trim();
+      const toast = document.getElementById('toast');
+      toast.textContent = `Thank you, ${name}! We received your request.`;
+      toast.style.display = 'block';
+      e.target.reset();
+    }
+
+    function footerSubscribe(e) {
+      e.preventDefault();
+      document.getElementById('footerSubMsg').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
